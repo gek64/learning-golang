@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"learning-golang-gin/middlewares"
 	"learning-golang-gin/routers"
 	"log"
 )
@@ -10,8 +11,12 @@ func main() {
 	// 创建默认路由引擎
 	router := gin.Default()
 
+	// 加载路由中的全局中间件
+	router.Use(middlewares.Middle{}.Hello)
+
 	// 加载mainPage路由
-	routers.MainPageRouter(router)
+	routers.MainRouter(router)
+	routers.MiddleRouter(router)
 
 	// 在127.0.0.1:80上启动
 	err := router.Run("127.0.0.1:80")

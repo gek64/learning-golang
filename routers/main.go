@@ -5,7 +5,7 @@ import (
 	"learning-golang-gin/controllers/mainPage"
 )
 
-func MainPageRouter(router *gin.Engine) {
+func MainRouter(router *gin.Engine) {
 	routerGroup := router.Group("/")
 	{
 		routerGroup.GET("/", mainPage.DefaultController{}.Get)
