@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -9,12 +8,9 @@ import (
 type Middle struct {
 }
 
-func (m Middle) Hello(c *gin.Context) {
-	fmt.Println("全局中间件开始")
-
+func (m Middle) SetUploadLocation(c *gin.Context) {
 	// 设置中间件与其他控制器共享的数据
-	c.Set("userId", "123456")
+	c.Set("dst", "upload")
 
 	c.Next()
-	fmt.Println("全局中间件结束")
 }
