@@ -18,6 +18,7 @@ func main() {
 	routers.MainRouter(router)
 	routers.MiddleRouter(router)
 	routers.UploadRouter(router)
+	routers.DataRouter(router)
 
 	// 在127.0.0.1:80上启动
 	err := router.Run("127.0.0.1:80")
