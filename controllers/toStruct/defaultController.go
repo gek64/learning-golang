@@ -16,10 +16,10 @@ type Login struct {
 
 // JsonToStruct 解析json
 func JsonToStruct(c *gin.Context) {
-	var loginJson Login
+	var login Login
 
 	// body中的json转换到结构体
-	err := c.ShouldBindJSON(&loginJson)
+	err := c.ShouldBindJSON(&login)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		log.Panicln(err)
@@ -27,18 +27,18 @@ func JsonToStruct(c *gin.Context) {
 
 	// 返回输入
 	c.JSON(http.StatusOK, gin.H{
-		"user":     loginJson.User,
-		"password": loginJson.Password,
-		"info":     loginJson.Info,
+		"user":     login.User,
+		"password": login.Password,
+		"info":     login.Info,
 	})
 }
 
 // FormToStruct 解析multipart form
 func FormToStruct(c *gin.Context) {
-	var loginJson Login
+	var login Login
 
 	// body中的json转换到结构体
-	err := c.Bind(&loginJson)
+	err := c.Bind(&login)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		log.Panicln(err)
@@ -46,18 +46,18 @@ func FormToStruct(c *gin.Context) {
 
 	// 返回输入
 	c.JSON(http.StatusOK, gin.H{
-		"user":     loginJson.User,
-		"password": loginJson.Password,
-		"info":     loginJson.Info,
+		"user":     login.User,
+		"password": login.Password,
+		"info":     login.Info,
 	})
 }
 
 // URLToStruct 解析URL
 func URLToStruct(c *gin.Context) {
-	var loginJson Login
+	var login Login
 
 	// body中的json转换到结构体
-	err := c.ShouldBindUri(&loginJson)
+	err := c.ShouldBindUri(&login)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		log.Panicln(err)
@@ -65,7 +65,7 @@ func URLToStruct(c *gin.Context) {
 
 	// 返回输入
 	c.JSON(http.StatusOK, gin.H{
-		"user":     loginJson.User,
-		"password": loginJson.Password,
+		"user":     login.User,
+		"password": login.Password,
 	})
 }

@@ -12,13 +12,14 @@ func main() {
 	router := gin.Default()
 
 	// 加载路由中的全局中间件
-	router.Use(middlewares.Middle{}.SetUploadLocation)
+	router.Use(middlewares.Middle{}.GlobeMiddleware)
 
 	// 加载路由
 	routers.MainRouter(router)
 	routers.MiddleRouter(router)
 	routers.UploadRouter(router)
 	routers.DataRouter(router)
+	routers.CookieRouter(router)
 
 	// 在127.0.0.1:80上启动
 	err := router.Run("127.0.0.1:80")

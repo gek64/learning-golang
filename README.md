@@ -12,3 +12,4 @@ https://www.topgoer.com/gin%E6%A1%86%E6%9E%B6/gin%E8%B7%AF%E7%94%B1/%E4%B8%8A%E4
 - mod
 - 上传多个文件,上传比特流文件
 - 请求传递而来的数据解析为结构体,json form url
+- cookie
