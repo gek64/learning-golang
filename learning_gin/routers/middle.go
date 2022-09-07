@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"learning-golang-gin/controllers/middlePage"
+	"learning_gin/controllers/middlePage"
 )
 
 func MiddleRouter(router *gin.Engine) {

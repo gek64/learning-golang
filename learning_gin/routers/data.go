@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"learning-golang-gin/controllers/toStruct"
+	"learning_gin/controllers/toStruct"
 )
 
 func DataRouter(router *gin.Engine) {

@@ -2,8 +2,8 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"learning-golang-gin/controllers/cookie"
-	"learning-golang-gin/middlewares"
+	"learning_gin/controllers/cookie"
+	"learning_gin/middlewares"
 )
 
 func CookieRouter(router *gin.Engine) {

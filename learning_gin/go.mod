@@ -1,4 +1,4 @@
-module learning-golang-gin
+module learning_gin
 
 go 1.19
 

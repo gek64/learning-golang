@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"learning-golang-gin/controllers/upload"
+	"learning_gin/controllers/upload"
 )
 
 func UploadRouter(router *gin.Engine) {

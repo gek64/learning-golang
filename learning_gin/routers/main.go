@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"learning-golang-gin/controllers/mainPage"
+	"learning_gin/controllers/mainPage"
 )
 
 func MainRouter(router *gin.Engine) {

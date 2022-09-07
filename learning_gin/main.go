@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"learning-golang-gin/middlewares"
-	"learning-golang-gin/routers"
+	"learning_gin/middlewares"
+	"learning_gin/routers"
 	"log"
 )
 
