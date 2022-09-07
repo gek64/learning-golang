@@ -16,3 +16,4 @@
 - 请求传递而来的数据解析为结构体,json form url
 - cookie
 - session
+- gorm
