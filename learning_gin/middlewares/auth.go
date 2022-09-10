@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func (m Middle) AuthMiddleWare(c *gin.Context) {
+func AuthMiddleWare(c *gin.Context) {
 	cookie, err := c.Cookie("cookie_key")
 	// cookie 验证出错
 	if err != nil {

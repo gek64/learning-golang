@@ -10,6 +10,6 @@ func CookieRouter(router *gin.Engine) {
 	routerGroup := router.Group("/cookie")
 	{
 		routerGroup.GET("/get", cookie.SetCookie)
-		routerGroup.GET("/show", middlewares.Middle{}.AuthMiddleWare, cookie.ShowCookie)
+		routerGroup.GET("/show", middlewares.AuthMiddleWare, cookie.ShowCookie)
 	}
 }

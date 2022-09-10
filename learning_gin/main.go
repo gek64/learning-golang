@@ -12,7 +12,7 @@ func main() {
 	router := gin.Default()
 
 	// 加载路由中的全局中间件
-	router.Use(middlewares.Middle{}.GlobeMiddleware)
+	router.Use(middlewares.GlobeMiddleware)
 
 	// 加载路由
 	routers.MainRouter(router)
