@@ -1,9 +1,13 @@
 package main
 
 import (
-	"learning_gorm/example"
+	"learning_gorm/crud"
+	"log"
 )
 
 func main() {
-	example.RunExample()
+	err := crud.SearchAll()
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
