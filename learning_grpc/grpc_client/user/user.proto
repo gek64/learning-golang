@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+// 生产代码包的包名
+package user;
+
+// 生成代码包位置
+option go_package = "./user";
+
+// 请求消息定义
+message UserReq{
+  string Id = 1;
+}
+
+// 回应消息定义
+message UserResp{
+  string Id = 1;
+  string Name = 2;
+  google.protobuf.Timestamp Birthday = 3;
+}
+
+// 服务定义
+service User{
+  rpc GetUser(UserReq) returns(UserResp){}
+}

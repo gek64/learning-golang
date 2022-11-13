@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+// 生产代码包的包名
+package product;
+
+// 生成代码包位置
+option go_package = "./product";
+
+// 请求消息定义
+message ProductReq{
+  string Id = 1;
+  // repeated 定义的是一个类型的切片
+  //repeated ProductResp p = 2;
+}
+
+// 回应消息定义
+message ProductResp{
+  string Id = 1;
+  string Name = 2;
+  string SKU = 3;
+  double Price = 4;
+}
+
+// 服务定义
+service Product{
+  rpc GetProduct(ProductReq) returns(ProductResp){}
+}

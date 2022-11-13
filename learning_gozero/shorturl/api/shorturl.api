@@ -1,0 +1,31 @@
+syntax = "v2"
+
+info(
+	title: "缩短URL服务api"
+	desc: "提供缩短URL,恢复原始URL服务"
+	author: "gek64"
+	email: "gek64@localhost"
+)
+
+type (
+	shortenReq {
+		Url string `form:"url"`
+	}
+	shortenResp {
+		Shorten string `json:"shorten"`
+	}
+	expandReq {
+		Shorten string `form:"shorten"`
+	}
+	expandResp {
+		Url string `form:"url"`
+	}
+)
+
+service shorturl {
+	@handler ShortenHandler
+	get /shorten (shortenReq) returns (shortenResp)
+	
+	@handler ExpandHandler
+	get /expand (shortenReq) returns (shortenResp)
+}
