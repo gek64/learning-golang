@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"grpc_client/product"
-	"grpc_client/user"
+	"learning_grpc/pkg/grpc/product"
+	"learning_grpc/pkg/grpc/user"
 	"log"
 	"time"
 )

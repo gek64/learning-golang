@@ -4,6 +4,7 @@
 - https://zenn.dev/hsaki/books/golang-grpc-starting/viewer
 - https://connect.build/docs/introduction/
 - https://segmentfault.com/a/1190000040917752
+- https://hypc.github.io/2019/08/16/golang-project-structure/
 
 ## 环境安装
 
@@ -21,11 +22,8 @@ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 ### grpc服务与结构体代码生成
 
 ```shell
-mkdir -p product && mv product.proto product
-protoc --go_out="." --go-grpc_out="." product/product.proto
-
-mkdir -p user && mv user.proto user
-protoc --go_out="." --go-grpc_out="." user/user.proto
+protoc --go_out="./pkg/grpc" --go-grpc_out="./pkg/grpc" api/product.proto
+protoc --go_out="./pkg/grpc" --go-grpc_out="./pkg/grpc" api/user.proto
 ```
 
 ### 添加grpc依赖
@@ -34,3 +32,11 @@ protoc --go_out="." --go-grpc_out="." user/user.proto
 go get -u google.golang.org/grpc
 ```
 
+### 运行安装
+```shell
+# 运行
+go run learning_grpc/cmd/grpc_server
+go run learning_grpc/cmd/grpc_client
+# 安装所有
+go install learning_grpc/cmd/...
+```

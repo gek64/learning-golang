@@ -2,8 +2,8 @@ package main
 
 import (
 	"google.golang.org/grpc"
-	"grpc_server/product"
-	"grpc_server/user"
+	"learning_grpc/pkg/grpc/product"
+	"learning_grpc/pkg/grpc/user"
 	"net"
 )
 

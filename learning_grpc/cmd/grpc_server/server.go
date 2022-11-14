@@ -3,9 +3,9 @@ package main
 import (
 	"context"
 	"google.golang.org/protobuf/types/known/timestamppb"
-	"grpc_server/product"
-	"grpc_server/user"
-	"time"
+	"learning_grpc/internal"
+	"learning_grpc/pkg/grpc/product"
+	"learning_grpc/pkg/grpc/user"
 )
 
 // 实现grpc服务
@@ -28,7 +28,7 @@ func (s *server) GetProduct(ctx context.Context, in *product.ProductReq) (out *p
 // GetUser 实现GetUser服务逻辑
 func (s *server) GetUser(ctx context.Context, in *user.UserReq) (out *user.UserResp, err error) {
 	// 新建时间
-	newTime := time.Date(1996, 4, 22, 4, 22, 00, 00, time.FixedZone("CST", 8*60*60))
+	newTime := internal.GetRandomTime()
 	// 填充返回结构体
 	u := user.UserResp{
 		Id:       in.GetId(),
