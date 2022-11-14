@@ -13,7 +13,7 @@ func GetRandomTime() (t time.Time) {
 	hour := rand.Intn(23)
 	min := rand.Intn(59)
 	sec := rand.Intn(59)
-	nsec := rand.Intn(59)
+	nsec := 0
 
 	return time.Date(year, time.Month(month), day, hour, min, sec, nsec, cst)
 }
