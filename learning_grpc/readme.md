@@ -24,6 +24,7 @@ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 ```shell
 protoc --go_out="./pkg/grpc" --go-grpc_out="./pkg/grpc" api/product.proto
 protoc --go_out="./pkg/grpc" --go-grpc_out="./pkg/grpc" api/user.proto
+protoc --go_out="./pkg/grpc" --go-grpc_out="./pkg/grpc" api/chat.proto
 ```
 
 ### 添加`grpc`依赖
@@ -52,4 +53,6 @@ go install learning_grpc/cmd/...
 grpcurl -plaintext localhost:8080
 # 查看注册的服务下的所有方法函数
 grpcurl -plaintext localhost:8080 list product.Product
+# 发送请求(windows环境下不可用)
+grpcurl -plaintext -d '{"msg": "哈哈"}' localhost:8080 chat.Chat.ChatServerStream
 ```

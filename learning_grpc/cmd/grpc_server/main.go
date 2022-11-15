@@ -3,14 +3,20 @@ package main
 import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"learning_grpc/pkg/grpc/chat"
 	"learning_grpc/pkg/grpc/product"
 	"learning_grpc/pkg/grpc/user"
 	"net"
 )
 
 func main() {
+	startRpcServer()
+}
+
+// 启动RPC服务端
+func startRpcServer() {
 	// 注册tcp网络监听器
-	listener, err := net.Listen("tcp", "127.0.0.1:8080")
+	listener, err := net.Listen("tcp", "0.0.0.0:8080")
 	if err != nil {
 		return
 	}
@@ -21,6 +27,7 @@ func main() {
 	// grpc服务注册
 	product.RegisterProductServer(s, &server{})
 	user.RegisterUserServer(s, &server{})
+	chat.RegisterChatServer(s, &serverStream{})
 
 	// grpc服务反射(https://github.com/fullstorydev/grpcurl/releases)
 	// 向grpc服务器本身获取proto文件信息

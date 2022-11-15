@@ -12,6 +12,11 @@ import (
 )
 
 func main() {
+	startRpcClient()
+}
+
+// 启动RPC客户端
+func startRpcClient() {
 	// 建立连接,配置选项忽略传输层凭据(tls/ssl)
 	conn, err := grpc.Dial("localhost:8080", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
@@ -20,11 +25,11 @@ func main() {
 	defer func(conn *grpc.ClientConn) {
 		err := conn.Close()
 		if err != nil {
-			log.Fatal(err)
+			log.Panicln(err)
 		}
 	}(conn)
 
-	// 建立客户端连接
+	// 生成客户端
 	productClient := product.NewProductClient(conn)
 	userClient := user.NewUserClient(conn)
 

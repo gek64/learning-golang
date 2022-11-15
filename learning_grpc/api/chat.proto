@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+// 生产代码包的包名
+package chat;
+
+// 生成代码包位置
+option go_package = "./chat";
+
+// 请求消息定义
+message ChatReq{
+  string msg = 1;
+}
+
+// 回应消息定义
+message ChatResp{
+  string msg = 1;
+}
+
+// 服务定义
+service Chat{
+  rpc ChatServerStream(ChatReq) returns(stream ChatResp){}
+}
