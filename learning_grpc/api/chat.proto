@@ -22,4 +22,6 @@ service Chat{
   rpc ChatServerStream(ChatReq) returns(stream ChatResp){}
   // 客户端流服务,客户端可以多次发送信息
   rpc ChatClientStream(stream ChatReq) returns(ChatResp){}
+  // 双向流服务,服务端、客户端都可以多次发送信息
+  rpc ChatBiStreams(stream ChatReq) returns(stream ChatResp){}
 }

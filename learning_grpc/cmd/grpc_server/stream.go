@@ -54,3 +54,27 @@ func (s *serverStream) ChatClientStream(stream chat.Chat_ChatClientStreamServer)
 	// 发送流的结尾的反馈信息到客户端
 	return stream.SendAndClose(&chat.ChatResp{Msg: respMsg})
 }
+
+// ChatBiStreams 双向流服务,服务端、客户端都可以多次发送信息,发送完成均需要发送结束反馈给对方
+func (s *serverStream) ChatBiStreams(stream chat.Chat_ChatBiStreamsServer) (err error) {
+	for {
+		// 接收信息
+		req, err := stream.Recv()
+		if err != nil {
+			// 客户端发送一条信息,服务端回复一条信息,客户端不发送了就终止
+			if errors.Is(err, io.EOF) {
+				return nil
+			}
+			return err
+		}
+
+		// 组合服务端返回给客户端的信息
+		respMessage := fmt.Sprintf("你好收到的信息是：%s", req.Msg)
+
+		// 发送信息
+		err = stream.Send(&chat.ChatResp{Msg: respMessage})
+		if err != nil {
+			return err
+		}
+	}
+}

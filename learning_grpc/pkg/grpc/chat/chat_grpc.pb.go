@@ -26,6 +26,8 @@ type ChatClient interface {
 	ChatServerStream(ctx context.Context, in *ChatReq, opts ...grpc.CallOption) (Chat_ChatServerStreamClient, error)
 	// 客户端流服务,客户端可以多次发送信息
 	ChatClientStream(ctx context.Context, opts ...grpc.CallOption) (Chat_ChatClientStreamClient, error)
+	// 双向流服务,服务端、客户端都可以多次发送信息
+	ChatBiStreams(ctx context.Context, opts ...grpc.CallOption) (Chat_ChatBiStreamsClient, error)
 }
 
 type chatClient struct {
@@ -102,6 +104,37 @@ func (x *chatChatClientStreamClient) CloseAndRecv() (*ChatResp, error) {
 	return m, nil
 }
 
+func (c *chatClient) ChatBiStreams(ctx context.Context, opts ...grpc.CallOption) (Chat_ChatBiStreamsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Chat_ServiceDesc.Streams[2], "/chat.Chat/ChatBiStreams", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &chatChatBiStreamsClient{stream}
+	return x, nil
+}
+
+type Chat_ChatBiStreamsClient interface {
+	Send(*ChatReq) error
+	Recv() (*ChatResp, error)
+	grpc.ClientStream
+}
+
+type chatChatBiStreamsClient struct {
+	grpc.ClientStream
+}
+
+func (x *chatChatBiStreamsClient) Send(m *ChatReq) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *chatChatBiStreamsClient) Recv() (*ChatResp, error) {
+	m := new(ChatResp)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // ChatServer is the server API for Chat service.
 // All implementations must embed UnimplementedChatServer
 // for forward compatibility
@@ -110,6 +143,8 @@ type ChatServer interface {
 	ChatServerStream(*ChatReq, Chat_ChatServerStreamServer) error
 	// 客户端流服务,客户端可以多次发送信息
 	ChatClientStream(Chat_ChatClientStreamServer) error
+	// 双向流服务,服务端、客户端都可以多次发送信息
+	ChatBiStreams(Chat_ChatBiStreamsServer) error
 	mustEmbedUnimplementedChatServer()
 }
 
@@ -122,6 +157,9 @@ func (UnimplementedChatServer) ChatServerStream(*ChatReq, Chat_ChatServerStreamS
 }
 func (UnimplementedChatServer) ChatClientStream(Chat_ChatClientStreamServer) error {
 	return status.Errorf(codes.Unimplemented, "method ChatClientStream not implemented")
+}
+func (UnimplementedChatServer) ChatBiStreams(Chat_ChatBiStreamsServer) error {
+	return status.Errorf(codes.Unimplemented, "method ChatBiStreams not implemented")
 }
 func (UnimplementedChatServer) mustEmbedUnimplementedChatServer() {}
 
@@ -183,6 +221,32 @@ func (x *chatChatClientStreamServer) Recv() (*ChatReq, error) {
 	return m, nil
 }
 
+func _Chat_ChatBiStreams_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ChatServer).ChatBiStreams(&chatChatBiStreamsServer{stream})
+}
+
+type Chat_ChatBiStreamsServer interface {
+	Send(*ChatResp) error
+	Recv() (*ChatReq, error)
+	grpc.ServerStream
+}
+
+type chatChatBiStreamsServer struct {
+	grpc.ServerStream
+}
+
+func (x *chatChatBiStreamsServer) Send(m *ChatResp) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *chatChatBiStreamsServer) Recv() (*ChatReq, error) {
+	m := new(ChatReq)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // Chat_ServiceDesc is the grpc.ServiceDesc for Chat service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -199,6 +263,12 @@ var Chat_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "ChatClientStream",
 			Handler:       _Chat_ChatClientStream_Handler,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "ChatBiStreams",
+			Handler:       _Chat_ChatBiStreams_Handler,
+			ServerStreams: true,
 			ClientStreams: true,
 		},
 	},
