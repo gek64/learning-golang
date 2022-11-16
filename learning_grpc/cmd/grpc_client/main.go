@@ -32,6 +32,12 @@ func main() {
 	if err != nil {
 		log.Panicln(err)
 	}
+
+	fmt.Println("双向流 rpc")
+	err = startBiStreamsRpc()
+	if err != nil {
+		log.Panicln(err)
+	}
 }
 
 // 建立网络连接
@@ -171,4 +177,56 @@ func startClientStreamRpc() (err error) {
 	fmt.Println(resp)
 
 	return nil
+}
+
+// 双向流 rpc
+func startBiStreamsRpc() (err error) {
+	var sendMessages = []string{"哈哈", "你好", "这是多个客户端发送的信息"}
+
+	// 建立连接,配置选项忽略传输层凭据(tls/ssl)
+	conn, err := getNetConn()
+	if err != nil {
+		return err
+	}
+	defer func(conn *grpc.ClientConn) {
+		err := conn.Close()
+		if err != nil {
+			log.Panicln(err)
+		}
+	}(conn)
+
+	// 新建上下文,3s超时退出
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	// 生成客户端
+	chatClient := chat.NewChatClient(conn)
+
+	streams, err := chatClient.ChatBiStreams(ctx)
+	if err != nil {
+		return err
+	}
+
+	for _, message := range sendMessages {
+		err := streams.Send(&chat.ChatReq{Msg: message})
+		if err != nil {
+			return err
+		}
+	}
+	err = streams.CloseSend()
+	if err != nil {
+		return err
+	}
+
+	for {
+		resp, err := streams.Recv()
+		if err != nil {
+			if errors.Is(err, io.EOF) {
+				return nil
+			}
+			return err
+		}
+
+		fmt.Println(resp.GetMsg())
+	}
 }
