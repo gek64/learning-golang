@@ -50,9 +50,11 @@ go install learning_grpc/cmd/...
 
 ```shell
 # 查看所有注册的服务
-grpcurl -plaintext localhost:8080
+grpcurl -plaintext localhost:8080 list
 # 查看注册的服务下的所有方法函数
 grpcurl -plaintext localhost:8080 list product.Product
 # 发送请求(windows环境下不可用)
 grpcurl -plaintext -d '{"msg": "哈哈"}' localhost:8080 chat.Chat.ChatServerStream
+# 发送多个请求
+grpcurl -plaintext -d '{"msg": "哈哈"}{"msg": "你好"}' localhost:8080 chat.Chat.ChatServerStream
 ```
