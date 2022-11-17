@@ -209,21 +209,23 @@ func startBiStreamsRpc() (err error) {
 	}
 
 	// 发送所有信息
-	for _, message := range sendMessages {
+	for i, message := range sendMessages {
 		// 使用 streams.Send() 来发送信息到服务端
 		err := streams.Send(&chat.ChatReq{Msg: message})
 		if err != nil {
 			return err
 		}
-	}
-	// 终止发送(发送 io.EOF)
-	err = streams.CloseSend()
-	if err != nil {
-		return err
-	}
 
-	// 接收服务端反馈的信息
-	for {
+		// 所有消息发送完成
+		if i+1 == len(sendMessages) {
+			// 终止发送(发送 io.EOF)
+			err = streams.CloseSend()
+			if err != nil {
+				return err
+			}
+		}
+
+		// 接收服务端反馈的信息
 		resp, err := streams.Recv()
 		if err != nil {
 			// 读取到服务端发送的 io.EOF 表示接收完成所有服务端的反馈信息
@@ -232,7 +234,8 @@ func startBiStreamsRpc() (err error) {
 			}
 			return err
 		}
-
 		fmt.Println(resp.GetMsg())
 	}
+
+	return nil
 }
