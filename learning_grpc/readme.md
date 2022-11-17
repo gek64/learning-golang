@@ -25,6 +25,7 @@ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 protoc --go_out="./pkg/grpc" --go-grpc_out="./pkg/grpc" api/product.proto
 protoc --go_out="./pkg/grpc" --go-grpc_out="./pkg/grpc" api/user.proto
 protoc --go_out="./pkg/grpc" --go-grpc_out="./pkg/grpc" api/chat.proto
+protoc --go_out="./pkg/grpc" --go-grpc_out="./pkg/grpc" api/error_code.proto
 ```
 
 ### 添加`grpc`依赖

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+// 生产代码包的包名
+package error_code;
+
+// 生成代码包位置
+option go_package = "./error_code";
+
+// 请求消息定义
+message ErrorReq{
+  string msg = 1;
+}
+
+// 回应消息定义
+message ErrorResp{
+  string msg = 1;
+}
+
+// 服务定义
+service Error{
+  rpc ErrorServer(ErrorReq) returns(ErrorResp){}
+}
