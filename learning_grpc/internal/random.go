@@ -7,7 +7,7 @@ import (
 
 func GetRandomTime() (t time.Time) {
 	cst := time.FixedZone("CST", 8*60*60)
-	year := rand.Intn(200) + 1900
+	year := rand.Intn(time.Now().Year()-1900) + 1900
 	month := rand.Intn(12)
 	day := rand.Intn(28)
 	hour := rand.Intn(23)

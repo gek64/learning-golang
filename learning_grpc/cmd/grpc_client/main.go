@@ -80,7 +80,7 @@ func startRpc() (err error) {
 	if err != nil {
 		return err
 	}
-	fmt.Println(userResp)
+	fmt.Println(userResp, userResp.GetBirthday().AsTime())
 
 	return nil
 }
@@ -181,7 +181,7 @@ func startClientStreamRpc() (err error) {
 
 // 双向流 rpc
 func startBiStreamsRpc() (err error) {
-	var sendMessages = []string{"哈哈", "你好", "这是多个客户端发送的信息"}
+	var sendMessages = []string{"哈哈", "你好", "这是客户端发送的多个信息"}
 
 	// 建立连接,配置选项忽略传输层凭据(tls/ssl)
 	conn, err := getNetConn()
@@ -202,25 +202,31 @@ func startBiStreamsRpc() (err error) {
 	// 生成客户端
 	chatClient := chat.NewChatClient(conn)
 
+	// 调用客户端下 ChatBiStreams 服务
 	streams, err := chatClient.ChatBiStreams(ctx)
 	if err != nil {
 		return err
 	}
 
+	// 发送所有信息
 	for _, message := range sendMessages {
+		// 使用 streams.Send() 来发送信息到服务端
 		err := streams.Send(&chat.ChatReq{Msg: message})
 		if err != nil {
 			return err
 		}
 	}
+	// 终止发送(发送 io.EOF)
 	err = streams.CloseSend()
 	if err != nil {
 		return err
 	}
 
+	// 接收服务端反馈的信息
 	for {
 		resp, err := streams.Recv()
 		if err != nil {
+			// 读取到服务端发送的 io.EOF 表示接收完成所有服务端的反馈信息
 			if errors.Is(err, io.EOF) {
 				return nil
 			}
