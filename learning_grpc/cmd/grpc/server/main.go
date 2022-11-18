@@ -7,7 +7,7 @@ import (
 	interceptor2 "learning_grpc/cmd/grpc/server/interceptor"
 	"learning_grpc/cmd/grpc/server/server"
 	"learning_grpc/pkg/grpc/chat"
-	"learning_grpc/pkg/grpc/error_code"
+	"learning_grpc/pkg/grpc/errorCode"
 	"learning_grpc/pkg/grpc/product"
 	"learning_grpc/pkg/grpc/user"
 	"net"
@@ -41,7 +41,7 @@ func startRpcServer() {
 	product.RegisterProductServer(s, &server.Server{})
 	user.RegisterUserServer(s, &server.Server{})
 	chat.RegisterChatServer(s, &server.Server{})
-	error_code.RegisterErrorServer(s, &errorCode.Server{})
+	errorCode.RegisterErrorServer(s, &errorCode.Server{})
 
 	// grpc服务反射(https://github.com/fullstorydev/grpcurl/releases)
 	// 向grpc服务器本身获取proto文件信息

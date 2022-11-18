@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc/status"
 	"io"
 	"learning_grpc/pkg/grpc/chat"
-	"learning_grpc/pkg/grpc/error_code"
+	"learning_grpc/pkg/grpc/errorCode"
 	"learning_grpc/pkg/grpc/product"
 	"learning_grpc/pkg/grpc/user"
 	"log"
@@ -252,10 +252,10 @@ func TestRpcErrorCode() (err error) {
 	defer cancel()
 
 	// 生成客户端
-	errorClient := error_code.NewErrorClient(conn)
+	errorClient := errorCode.NewErrorClient(conn)
 
 	// 客户端远程调用函数,获取自定义的错误
-	_, err = errorClient.ErrorServer(ctx, &error_code.ErrorReq{Msg: ""})
+	_, err = errorClient.ErrorServer(ctx, &errorCode.ErrorReq{Msg: ""})
 	// 提取错误
 	s, _ := status.FromError(err)
 	fmt.Printf("错误代码：%d\n", s.Code())

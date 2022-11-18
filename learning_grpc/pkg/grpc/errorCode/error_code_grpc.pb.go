@@ -4,7 +4,7 @@
 // - protoc             v3.21.9
 // source: api/error_code.proto
 
-package error_code
+package errorCode
 
 import (
 	context "context"

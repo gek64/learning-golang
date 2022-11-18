@@ -5,14 +5,14 @@ import (
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"learning_grpc/pkg/grpc/error_code"
+	"learning_grpc/pkg/grpc/errorCode"
 )
 
 type Server struct {
-	error_code.UnimplementedErrorServer
+	errorCode.UnimplementedErrorServer
 }
 
-func (c *Server) ErrorServer(ctx context.Context, in *error_code.ErrorReq) (out *error_code.ErrorResp, err error) {
+func (c *Server) ErrorServer(ctx context.Context, in *errorCode.ErrorReq) (out *errorCode.ErrorResp, err error) {
 	// 定义简单错误
 	//err = status.Error(codes.Unknown, "unknown error occurred!")
 
@@ -21,5 +21,5 @@ func (c *Server) ErrorServer(ctx context.Context, in *error_code.ErrorReq) (out 
 	details, _ := stat.WithDetails(&errdetails.DebugInfo{
 		Detail: "自定义的未知错误",
 	})
-	return &error_code.ErrorResp{Msg: "错误默认返回"}, details.Err()
+	return &errorCode.ErrorResp{Msg: "错误默认返回"}, details.Err()
 }

@@ -6,7 +6,7 @@
 
 // 生产代码包的包名
 
-package error_code
+package errorCode
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
