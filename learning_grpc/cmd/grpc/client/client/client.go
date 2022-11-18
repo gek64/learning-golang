@@ -1,9 +1,10 @@
-package main
+package client
 
 import (
 	"context"
 	"errors"
 	"fmt"
+	"learning_grpc/cmd/grpc/client/interceptor"
 	// 需要匿名导入来避免 [proto: not found] 错误,即使不使用这个包的内容
 	_ "google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc"
@@ -18,8 +19,8 @@ import (
 	"time"
 )
 
-// 建立网络连接
-func getNetConn() (conn *grpc.ClientConn, err error) {
+// GetNetConn 建立网络连接
+func GetNetConn() (conn *grpc.ClientConn, err error) {
 	// 建立连接
 	return grpc.Dial("localhost:8080",
 		// 不使用 tls/ssl 必选
@@ -28,9 +29,9 @@ func getNetConn() (conn *grpc.ClientConn, err error) {
 		grpc.WithBlock(),
 
 		// 自定义一元拦截器(可选)
-		grpc.WithUnaryInterceptor(myUnaryClientInterceptor1),
+		grpc.WithUnaryInterceptor(interceptor.MyUnaryClientInterceptor1),
 		// 自定义流拦截器(可选)
-		grpc.WithStreamInterceptor(myStreamClientInterceptor1),
+		grpc.WithStreamInterceptor(interceptor.MyStreamClientInterceptor1),
 
 		// 多个拦截器链式启动(可选)
 		grpc.WithChainUnaryInterceptor(),
@@ -38,10 +39,10 @@ func getNetConn() (conn *grpc.ClientConn, err error) {
 	)
 }
 
-// 一对一 rpc
-func startRpc() (err error) {
+// StartRpc 一对一 rpc
+func StartRpc() (err error) {
 	// 建立连接,配置选项忽略传输层凭据(tls/ssl)
-	conn, err := getNetConn()
+	conn, err := GetNetConn()
 	if err != nil {
 		return err
 	}
@@ -77,10 +78,10 @@ func startRpc() (err error) {
 	return nil
 }
 
-// 服务端流 rpc
-func startServerStreamRpc() (err error) {
+// StartServerStreamRpc 服务端流 rpc
+func StartServerStreamRpc() (err error) {
 	// 建立连接,配置选项忽略传输层凭据(tls/ssl)
-	conn, err := getNetConn()
+	conn, err := GetNetConn()
 	if err != nil {
 		return err
 	}
@@ -122,12 +123,12 @@ func startServerStreamRpc() (err error) {
 	return nil
 }
 
-// 客户端流 rpc
-func startClientStreamRpc() (err error) {
+// StartClientStreamRpc 客户端流 rpc
+func StartClientStreamRpc() (err error) {
 	var sendMessages = []string{"哈哈", "你好", "这是多个客户端发送的信息"}
 
 	// 建立连接,配置选项忽略传输层凭据(tls/ssl)
-	conn, err := getNetConn()
+	conn, err := GetNetConn()
 	if err != nil {
 		return err
 	}
@@ -171,12 +172,12 @@ func startClientStreamRpc() (err error) {
 	return nil
 }
 
-// 双向流 rpc
-func startBiStreamsRpc() (err error) {
+// StartBiStreamsRpc 双向流 rpc
+func StartBiStreamsRpc() (err error) {
 	var sendMessages = []string{"哈哈", "你好", "这是客户端发送的多个信息"}
 
 	// 建立连接,配置选项忽略传输层凭据(tls/ssl)
-	conn, err := getNetConn()
+	conn, err := GetNetConn()
 	if err != nil {
 		return err
 	}
@@ -232,10 +233,10 @@ func startBiStreamsRpc() (err error) {
 	return nil
 }
 
-// 错误测试
-func testRpcErrorCode() (err error) {
+// TestRpcErrorCode 错误测试
+func TestRpcErrorCode() (err error) {
 	// 建立连接,配置选项忽略传输层凭据(tls/ssl)
-	conn, err := getNetConn()
+	conn, err := GetNetConn()
 	if err != nil {
 		return err
 	}

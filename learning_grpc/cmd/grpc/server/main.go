@@ -3,6 +3,9 @@ package main
 import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"learning_grpc/cmd/grpc/server/errorCode"
+	interceptor2 "learning_grpc/cmd/grpc/server/interceptor"
+	"learning_grpc/cmd/grpc/server/server"
 	"learning_grpc/pkg/grpc/chat"
 	"learning_grpc/pkg/grpc/error_code"
 	"learning_grpc/pkg/grpc/product"
@@ -25,9 +28,9 @@ func startRpcServer() {
 	// grpc服务建立
 	s := grpc.NewServer(
 		// 自定义一元拦截器(可选)
-		grpc.UnaryInterceptor(myUnaryServerInterceptor1),
+		grpc.UnaryInterceptor(interceptor2.MyUnaryServerInterceptor1),
 		// 自定义流拦截器(可选)
-		grpc.StreamInterceptor(myStreamServerInterceptor1),
+		grpc.StreamInterceptor(interceptor2.MyStreamServerInterceptor1),
 
 		// 多个拦截器链式启动(可选)
 		grpc.ChainUnaryInterceptor(),
@@ -35,10 +38,10 @@ func startRpcServer() {
 	)
 
 	// grpc服务注册
-	product.RegisterProductServer(s, &server{})
-	user.RegisterUserServer(s, &server{})
-	chat.RegisterChatServer(s, &serverStream{})
-	error_code.RegisterErrorServer(s, &errorCodeServer{})
+	product.RegisterProductServer(s, &server.Server{})
+	user.RegisterUserServer(s, &server.Server{})
+	chat.RegisterChatServer(s, &server.Server{})
+	error_code.RegisterErrorServer(s, &errorCode.Server{})
 
 	// grpc服务反射(https://github.com/fullstorydev/grpcurl/releases)
 	// 向grpc服务器本身获取proto文件信息

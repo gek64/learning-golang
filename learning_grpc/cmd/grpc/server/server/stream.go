@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"errors"
@@ -8,13 +8,8 @@ import (
 	"strings"
 )
 
-// 实现grpc服务
-type serverStream struct {
-	chat.UnimplementedChatServer
-}
-
 // ChatServerStream 服务器流服务,服务器可以多次发送信息
-func (s *serverStream) ChatServerStream(req *chat.ChatReq, stream chat.Chat_ChatServerStreamServer) (err error) {
+func (s *Server) ChatServerStream(req *chat.ChatReq, stream chat.Chat_ChatServerStreamServer) (err error) {
 	// 发送5次消息
 	for i := 0; i < 5; i++ {
 		msg := fmt.Sprintf("你已经发送的信息是：%s,本次回复是第%d次", req.GetMsg(), i)
@@ -29,7 +24,7 @@ func (s *serverStream) ChatServerStream(req *chat.ChatReq, stream chat.Chat_Chat
 }
 
 // ChatClientStream 客户端流服务,客户端可以多次发送信息,服务端收完信息后使用 stream.SendAndClose() 发送反馈给客户端
-func (s *serverStream) ChatClientStream(stream chat.Chat_ChatClientStreamServer) (err error) {
+func (s *Server) ChatClientStream(stream chat.Chat_ChatClientStreamServer) (err error) {
 	// 用于接受汇总所有的客户端传送来的信息
 	var messages []string
 
@@ -56,7 +51,7 @@ func (s *serverStream) ChatClientStream(stream chat.Chat_ChatClientStreamServer)
 }
 
 // ChatBiStreams 双向流服务,服务端、客户端都可以多次发送信息,发送完成均需要发送结束反馈给对方
-func (s *serverStream) ChatBiStreams(stream chat.Chat_ChatBiStreamsServer) (err error) {
+func (s *Server) ChatBiStreams(stream chat.Chat_ChatBiStreamsServer) (err error) {
 	for {
 		// 接收信息
 		req, err := stream.Recv()

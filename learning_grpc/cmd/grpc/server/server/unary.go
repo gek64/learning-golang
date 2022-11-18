@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"context"
@@ -8,14 +8,8 @@ import (
 	"learning_grpc/pkg/grpc/user"
 )
 
-// 实现grpc服务
-type server struct {
-	product.UnimplementedProductServer
-	user.UnimplementedUserServer
-}
-
 // GetProduct 实现GetProduct服务逻辑
-func (s *server) GetProduct(ctx context.Context, in *product.ProductReq) (out *product.ProductResp, err error) {
+func (s *Server) GetProduct(ctx context.Context, in *product.ProductReq) (out *product.ProductResp, err error) {
 	p := product.ProductResp{
 		Id:    in.GetId(),
 		Name:  "测试用商品",
@@ -26,7 +20,7 @@ func (s *server) GetProduct(ctx context.Context, in *product.ProductReq) (out *p
 }
 
 // GetUser 实现GetUser服务逻辑
-func (s *server) GetUser(ctx context.Context, in *user.UserReq) (out *user.UserResp, err error) {
+func (s *Server) GetUser(ctx context.Context, in *user.UserReq) (out *user.UserResp, err error) {
 	// 新建时间
 	newTime := internal.GetRandomTime()
 	// 填充返回结构体

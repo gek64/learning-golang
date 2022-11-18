@@ -1,4 +1,4 @@
-package main
+package errorCode
 
 import (
 	"context"
@@ -8,11 +8,11 @@ import (
 	"learning_grpc/pkg/grpc/error_code"
 )
 
-type errorCodeServer struct {
+type Server struct {
 	error_code.UnimplementedErrorServer
 }
 
-func (c *errorCodeServer) ErrorServer(ctx context.Context, in *error_code.ErrorReq) (out *error_code.ErrorResp, err error) {
+func (c *Server) ErrorServer(ctx context.Context, in *error_code.ErrorReq) (out *error_code.ErrorResp, err error) {
 	// 定义简单错误
 	//err = status.Error(codes.Unknown, "unknown error occurred!")
 
