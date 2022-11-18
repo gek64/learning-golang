@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+// 生产代码包的包名
+package login;
+
+// 生成代码包位置
+option go_package = "./login";
+
+// 请求消息定义
+message LoginReq{
+  string msg = 1;
+}
+
+// 回应消息定义
+message LoginResp{
+  string msg = 1;
+}
+
+// 服务定义
+service Login{
+  // 登录用户
+  rpc Login(LoginReq) returns(LoginResp){}
+  // 登出用户
+  rpc Logout(LoginReq) returns(LoginResp){}
+  // 列出用户
+  rpc List(LoginReq) returns(LoginResp){}
+}

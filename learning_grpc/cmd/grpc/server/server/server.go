@@ -2,6 +2,7 @@ package server
 
 import (
 	"learning_grpc/pkg/grpc/chat"
+	"learning_grpc/pkg/grpc/login"
 	"learning_grpc/pkg/grpc/product"
 	"learning_grpc/pkg/grpc/user"
 )
@@ -11,4 +12,5 @@ type Server struct {
 	product.UnimplementedProductServer
 	user.UnimplementedUserServer
 	chat.UnimplementedChatServer
+	login.UnimplementedLoginServer
 }

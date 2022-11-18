@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"learning_grpc/cmd/grpc/client/interceptor"
 	// 需要匿名导入来避免 [proto: not found] 错误,即使不使用这个包的内容
 	_ "google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc"
@@ -29,9 +28,9 @@ func GetNetConn() (conn *grpc.ClientConn, err error) {
 		grpc.WithBlock(),
 
 		// 自定义一元拦截器(可选)
-		grpc.WithUnaryInterceptor(interceptor.MyUnaryClientInterceptor1),
+		//grpc.WithUnaryInterceptor(interceptor.MyUnaryClientInterceptor1),
 		// 自定义流拦截器(可选)
-		grpc.WithStreamInterceptor(interceptor.MyStreamClientInterceptor1),
+		//grpc.WithStreamInterceptor(interceptor.MyStreamClientInterceptor1),
 
 		// 多个拦截器链式启动(可选)
 		grpc.WithChainUnaryInterceptor(),

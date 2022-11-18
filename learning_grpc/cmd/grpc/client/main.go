@@ -36,4 +36,10 @@ func main() {
 	if err != nil {
 		log.Panicln(err)
 	}
+
+	fmt.Println("\n元数据")
+	err = client.Login()
+	if err != nil {
+		log.Panicln(err)
+	}
 }
