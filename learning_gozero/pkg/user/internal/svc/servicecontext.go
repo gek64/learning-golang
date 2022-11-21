@@ -1,6 +1,6 @@
 package svc
 
-import "shorturl/rpc/transform/internal/config"
+import "learning_gozero/pkg/user/internal/config"
 
 type ServiceContext struct {
 	Config config.Config

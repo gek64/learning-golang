@@ -4,10 +4,10 @@ import (
 	"flag"
 	"fmt"
 
-	"shorturl/rpc/transform/internal/config"
-	"shorturl/rpc/transform/internal/server"
-	"shorturl/rpc/transform/internal/svc"
-	"shorturl/rpc/transform/transform"
+	"learning_gozero/pkg/user/internal/config"
+	"learning_gozero/pkg/user/internal/server"
+	"learning_gozero/pkg/user/internal/svc"
+	"learning_gozero/pkg/user/types/user"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
@@ -16,7 +16,7 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-var configFile = flag.String("f", "etc/transform.yaml", "the config file")
+var configFile = flag.String("f", "etc/user.yaml", "the config file")
 
 func main() {
 	flag.Parse()
@@ -26,7 +26,7 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		transform.RegisterTransformerServer(grpcServer, server.NewTransformerServer(ctx))
+		user.RegisterUserServer(grpcServer, server.NewUserServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)
