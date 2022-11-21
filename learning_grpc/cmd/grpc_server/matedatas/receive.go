@@ -1,4 +1,4 @@
-package server
+package matedatas
 
 import (
 	"context"
@@ -6,6 +6,10 @@ import (
 	"google.golang.org/grpc/metadata"
 	"learning_grpc/pkg/grpc/login"
 )
+
+type Server struct {
+	login.UnimplementedLoginServer
+}
 
 func (s *Server) Login(ctx context.Context, in *login.LoginReq) (out *login.LoginResp, err error) {
 	// 通过上下文的ctx来传递元数据

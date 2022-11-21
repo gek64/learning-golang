@@ -3,8 +3,9 @@ package main
 import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"learning_grpc/cmd/grpc/server/errorHandle"
-	"learning_grpc/cmd/grpc/server/server"
+	"learning_grpc/cmd/grpc_server/errors"
+	"learning_grpc/cmd/grpc_server/matedatas"
+	"learning_grpc/cmd/grpc_server/servers"
 	"learning_grpc/pkg/grpc/chat"
 	"learning_grpc/pkg/grpc/errorCode"
 	"learning_grpc/pkg/grpc/login"
@@ -38,11 +39,11 @@ func startRpcServer() {
 	)
 
 	// grpc服务注册
-	product.RegisterProductServer(s, &server.Server{})
-	user.RegisterUserServer(s, &server.Server{})
-	chat.RegisterChatServer(s, &server.Server{})
-	errorCode.RegisterErrorServer(s, &errorHandle.Server{})
-	login.RegisterLoginServer(s, &server.Server{})
+	product.RegisterProductServer(s, &servers.Server{})
+	user.RegisterUserServer(s, &servers.Server{})
+	chat.RegisterChatServer(s, &servers.Server{})
+	errorCode.RegisterErrorServer(s, &errors.Server{})
+	login.RegisterLoginServer(s, &matedatas.Server{})
 
 	// grpc服务反射(https://github.com/fullstorydev/grpcurl/releases)
 	// 向grpc服务器本身获取proto文件信息

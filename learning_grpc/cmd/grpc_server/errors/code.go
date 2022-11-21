@@ -1,4 +1,4 @@
-package errorHandle
+package errors
 
 import (
 	"context"

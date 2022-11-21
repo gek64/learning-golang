@@ -2,43 +2,43 @@ package main
 
 import (
 	"fmt"
-	"learning_grpc/cmd/grpc/client/client"
+	"learning_grpc/cmd/grpc_client/clients"
 	"log"
 )
 
 func main() {
 	fmt.Println("一对一 rpc")
-	err := client.StartRpc()
+	err := clients.StartRpc()
 	if err != nil {
 		log.Panicln(err)
 	}
 
 	fmt.Println("\n服务端流 rpc")
-	err = client.StartServerStreamRpc()
+	err = clients.StartServerStreamRpc()
 	if err != nil {
 		log.Panicln(err)
 	}
 
 	fmt.Println("\n客户端流 rpc")
-	err = client.StartClientStreamRpc()
+	err = clients.StartClientStreamRpc()
 	if err != nil {
 		log.Panicln(err)
 	}
 
 	fmt.Println("\n双向流 rpc")
-	err = client.StartBiStreamsRpc()
+	err = clients.StartBiStreamsRpc()
 	if err != nil {
 		log.Panicln(err)
 	}
 
 	fmt.Println("\n错误代码测试")
-	err = client.TestRpcErrorCode()
+	err = clients.TestRpcErrorCode()
 	if err != nil {
 		log.Panicln(err)
 	}
 
 	fmt.Println("\n元数据")
-	err = client.Login()
+	err = clients.Login()
 	if err != nil {
 		log.Panicln(err)
 	}
