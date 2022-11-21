@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"learning_grpc/cmd/grpc_client/clients"
+	"learning_grpc/cmd/grpc_client/matedatas"
 	"log"
 )
 
@@ -37,8 +38,14 @@ func main() {
 		log.Panicln(err)
 	}
 
-	fmt.Println("\n元数据")
-	err = clients.Login()
+	fmt.Println("\n元数据发送")
+	err = matedatas.Login()
+	if err != nil {
+		log.Panicln(err)
+	}
+
+	fmt.Println("\n元数据接受")
+	err = matedatas.Logout()
 	if err != nil {
 		log.Panicln(err)
 	}

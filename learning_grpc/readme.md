@@ -60,3 +60,21 @@ grpcurl -plaintext -d '{"msg": "哈哈"}' localhost:8080 chat.Chat.ChatServerStr
 # 发送多个请求
 grpcurl -plaintext -d '{"msg": "哈哈"}{"msg": "你好"}' localhost:8080 chat.Chat.ChatServerStream
 ```
+
+### 并行
+
+- grpc流上不能并行同时接受
+- grpc流上不能并行同时发送
+- grpc流上可以并行同时接受+发送
+
+#### 为了防止`goroutine`泄露
+
+##### 服务端
+
+- 满足以上并行的要求,来保证协程安全
+
+##### 客户端
+
+- 避免使用`grpc.ClientConn`下`close`方法来关闭网络连接
+- 使用上下文取消未使用的流
+- 所有的接受消息要接受到`io.EOF`后再终止接受信息
