@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"learning_gozero/pkg/user/types/user"
 
 	"learning_gozero/pkg/order/internal/svc"
 	"learning_gozero/pkg/order/internal/types"
@@ -24,7 +25,13 @@ func NewGetOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetOrder
 }
 
 func (l *GetOrderLogic) GetOrder(req *types.OrderReq) (resp *types.OrderReply, err error) {
-	// todo: add your logic here and delete this line
+	userResponse, err := l.svcCtx.UserRpc.GetUser(l.ctx, &user.IdRequest{Id: req.Id})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.OrderReply{
+		Id:   userResponse.GetId(),
+		Name: userResponse.GetName(),
+	}, nil
 }
