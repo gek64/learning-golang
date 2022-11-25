@@ -59,6 +59,9 @@ grpcurl -plaintext localhost:8080 list product.Product
 grpcurl -plaintext -d '{"msg": "哈哈"}' localhost:8080 chat.Chat.ChatServerStream
 # 发送多个请求
 grpcurl -plaintext -d '{"msg": "哈哈"}{"msg": "你好"}' localhost:8080 chat.Chat.ChatServerStream
+
+# windows下发送信息要使用
+grpcurl -plaintext -d {\"id\":\"AS100\"} localhost:81 user.User.getUser
 ```
 
 ### 并行

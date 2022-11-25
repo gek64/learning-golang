@@ -1,6 +1,0 @@
-Name: user.rpc
-ListenOn: 0.0.0.0:81
-Etcd:
-  Hosts:
-    - 192.168.137.3:2379
-  Key: user.rpc

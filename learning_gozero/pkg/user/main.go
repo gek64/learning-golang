@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 
 	"learning_gozero/pkg/user/internal/config"
@@ -10,28 +9,27 @@ import (
 	"learning_gozero/pkg/user/types/user"
 
 	"github.com/zeromicro/go-zero/core/conf"
-	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
-var configFile = flag.String("f", "etc/user.yaml", "the config file")
-
 func main() {
-	flag.Parse()
-
 	var c config.Config
-	conf.MustLoad(*configFile, &c)
+	conf.MustLoad("configs/user.json", &c)
+
+	// 服务的配置文件
 	ctx := svc.NewServiceContext(c)
 
-	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		user.RegisterUserServer(grpcServer, server.NewUserServer(ctx))
-
-		if c.Mode == service.DevMode || c.Mode == service.TestMode {
+	// 使用zrpc来注册grpc服务,会自动调用zrpc内部的上下文来控制服务(取消)
+	s := zrpc.MustNewServer(c.RpcServerConf,
+		// 注册grpc服务的函数
+		func(grpcServer *grpc.Server) {
+			// 用户grpc服务
+			user.RegisterUserServer(grpcServer, server.NewUserServer(ctx))
+			// 反射服务
 			reflection.Register(grpcServer)
-		}
-	})
+		})
 	defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)

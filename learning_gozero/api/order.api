@@ -1,20 +1,20 @@
 syntax = "v1"
 
 info(
-	title: "order api"
-	version: "v1.0"
+    title: "order api"
+    version: "v1.0"
 )
 
 type OrderReq {
-	Id string `path:"id"`
+    Id string `path:"id"`
 }
 
 type OrderReply {
-	Id   string `json:"id"`
-	Name string `json:"name"`
+    Id string `json:"id"`
+    Name string `json:"name"`
 }
 
 service order {
-	@handler getOrder
-	get /api/order/get/:id (OrderReq) returns (OrderReply)
+    @handler getOrder
+    get /api/order/get/:id (OrderReq) returns (OrderReply)
 }
